@@ -1,0 +1,34 @@
+---
+#Good playbook
+- name: configuration
+  hosts: all
+  become: yes
+  roles:
+     - base-config 
+
+- name: setup haproxy
+  hosts: frontends
+  become: yes
+  roles:
+     - haproxy
+
+- name: deploy tomcat
+  hosts: apps
+  gather_facts: false
+  become: yes
+  roles:
+     - appserver
+
+- name: deploy postgresql
+  hosts: appdbs
+  gather_facts: false
+  become: yes
+  roles:
+     - geerlingguy.postgresql
+
+- name: deploy apache server
+  hosts:  apps
+  gather_facts: false
+  become: yes
+  roles:
+     - apache 
